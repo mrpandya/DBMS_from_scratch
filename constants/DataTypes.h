@@ -1,3 +1,0 @@
-enum DataTypes{
-    INT, STRING
-};
