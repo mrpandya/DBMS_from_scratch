@@ -69,7 +69,7 @@ class IndexList{
         void insert(string key, int value) {
             Entry entry =  Entry(key, value, this->_index);
             int *hash = hashFunction(this->_index++);
-            if(hash[0]<this->_ParentNode.size()){
+            if(hash[0] < this->_ParentNode.size()){
                 this->_ParentNode[hash[0]].list[hash[1]] = entry;
                 return;
             }
@@ -82,14 +82,15 @@ class IndexList{
         void writeToFile(string filepath){
             // param filepath : string : path to the ndx file
             ofstream file (filepath, ios::binary);
-            for(int i=0;i<this->_index;i++){
+            for(int i = 0; i < this->_index; i++){
                 int *tempHash = hashFunction(i);
+                int tempLen = getEntry(tempHash[0],tempHash[1]).get_key().length();
                 file.write(
-                    reinterpret_cast<char*>(&getEntry(tempHash[0],tempHash[1]).get_key().length()), 
+                    reinterpret_cast<char*>(&tempLen), 
                     sizeof(int)
                 );
                 file.write(
-                    getEntry(tempHash[0],tempHash[1]).get_key(), 
+                    &(getEntry(tempHash[0],tempHash[1]).get_key())[0], 
                     sizeof(getEntry(tempHash[0],tempHash[1]).get_key())
                 );
                 file.write(
@@ -99,9 +100,10 @@ class IndexList{
                 int temp = i;
                 while(file && temp++ != this->_index-1 ){
                     tempHash = hashFunction(temp);
+                    int tempVal = getEntry(tempHash[0],tempHash[1]).get_value();
                     file.write(
-                        getEntry(tempHash[0],tempHash[1]).get_value(), 
-                        sizeof(getEntry(tempHash[0],tempHash[1]).get_value())
+                        reinterpret_cast<char*>(&tempVal), 
+                        sizeof(tempVal)
                     );
                 }
             }

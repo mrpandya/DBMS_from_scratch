@@ -1,4 +1,6 @@
 #include "../utils/IndexList.cpp"
+#include "../utils/TableRecord.cpp"
+#include "../utils/TableList.cpp"
 #include "../constants/checkQuery.cpp"
 #include "../constants/tokenizeQuery.cpp"
 
@@ -31,6 +33,11 @@ void handleImportQuery(string query){
     }
     // extra call for the column names in the csv file
     getline(file, data);
+
+    string filename = (queryTokens[1].substr(0, queryTokens[1].length() - 3)).append("db");
+    int offset = 0;
+
+    TableList table = TableList();
     IndexList id = IndexList(INT);
     IndexList username = IndexList(STRING);
     IndexList email = IndexList(STRING);
@@ -40,18 +47,29 @@ void handleImportQuery(string query){
         cout << "File is empty. Please import a file with data." << endl;
         return;
     }
+    getline(file, data);
     while(!file.eof()){
-        getline(file, data);
         vector<string> row = tokenizeString(data,",");
-        id.insert(row[0],4);
-        username.insert(row[1],4);
-        email.insert(row[2],4);
-        password.insert(row[3],4);
-        cout<<row[0]<<" "<<row[1]<<" "<<row[2]<<" "<<row[3]<<" "<<row[4]<<endl;
+        TableRecord record = TableRecord(stoi(row[0]), row[1], row[2], row[3]);
+        cout<<stoi(row[0])<<" "<<row[1]<<" "<<row[2]<<" "<<row[3]<<endl;
+        record.writeToFile(filename);
+
+        table.insert(stoi(row[0]), row[1], row[2], row[3]);
+        // table.insert(record);
+        id.insert(row[0],offset);
+        username.insert(row[1],offset);
+        email.insert(row[2],offset);
+        password.insert(row[3],offset);
+
+        offset += record.getLength();
+        getline(file, data);
+
     }
     id.writeToFile("../temp/id.ndx");
     username.writeToFile("../temp/username.ndx");
     email.writeToFile("../temp/email.ndx");
     password.writeToFile("../temp/password.ndx");
     file.close();
+
+    cout << "Import Success !!!" << endl;
 }

@@ -1,4 +1,4 @@
-#include "IndexList.h"
+using namespace std;
 
 class TableRecord{
     private:
@@ -78,7 +78,7 @@ class TableRecord{
 
         void writeString(ofstream *file, string string_value){
             file->write(
-                string_value, 
+                &string_value[0], 
                 sizeof(string_value)
             );
         }
@@ -90,7 +90,18 @@ class TableRecord{
             );
         }
 
-        TableRecord(int id, string username, string email, string password, bool deleted = true){
+        TableRecord(){
+            this->_id = 0;
+            this->_username = "";
+            this->_password = "";
+            this->_email = "";
+            this->_username_length = 0;
+            this->_password_length = 0;
+            this->_email_length = 0;
+            this->_deleted = false;
+        }
+
+        TableRecord(int id, string username, string email, string password, bool deleted = false){
             this->_id = id;
             this->_username = username;
             this->_email = email;
@@ -115,7 +126,7 @@ class TableRecord{
                 this->_email = readString(&file, this->_email_length);
                 this->_password_length = readInt(&file);
                 this->_password = readString(&file, this->_password_length);
-                this->_deleted = readBoolean(&file);
+                this->_deleted = readBool(&file);
 
             }catch(string exception){
                 cout << exception << endl;
@@ -150,13 +161,13 @@ class TableRecord{
         }
 
         void setDelete(bool isDeleted){
-            this->_delete = isDeleted;
+            this->_deleted = isDeleted;
         }
 
         void writeToFile(string filename, int offset = -1){
-            ofstream file(filename, ios::binary);
+            ofstream file(filename, ios::binary | ios::app);
             if(offset != -1){
-                file.seek(offset);
+                file.seekp(offset, ios::beg);
             }
             writeInt(&file, this->_id);
             writeInt(&file, this->_username_length);
@@ -182,5 +193,3 @@ class TableRecord{
         }
 
 };
-
-// TODO :  make methods for tablerecord as well
