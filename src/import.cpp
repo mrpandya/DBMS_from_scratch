@@ -1,8 +1,8 @@
 #include "../utils/IndexList.cpp"
-#include "../utils/TableRecord.cpp"
-#include "../utils/TableList.cpp"
 #include "../constants/checkQuery.cpp"
 #include "../constants/tokenizeQuery.cpp"
+#include "../utils/TableRecord.cpp"
+#include "../utils/TableList.cpp"
 
 void handleImportQuery(string query){
     vector<string> queryTokens;
@@ -14,10 +14,7 @@ void handleImportQuery(string query){
         return;
     }
     queryTokens = tokenizeString(query);
-    for(int i = 0; i < queryTokens.size(); i++){
-        cout << queryTokens[i] << endl;
-    }
-    // TODO : make tablerecord
+
     if(queryTokens.size()==1){
         cout << "Incomplete command. Try again." << endl;
         return;
@@ -47,24 +44,21 @@ void handleImportQuery(string query){
         cout << "File is empty. Please import a file with data." << endl;
         return;
     }
-    getline(file, data);
-    while(!file.eof()){
+    do{
+        getline(file, data);
         vector<string> row = tokenizeString(data,",");
         TableRecord record = TableRecord(stoi(row[0]), row[1], row[2], row[3]);
-        cout<<stoi(row[0])<<" "<<row[1]<<" "<<row[2]<<" "<<row[3]<<endl;
         record.writeToFile(filename);
-
-        table.insert(stoi(row[0]), row[1], row[2], row[3]);
-        // table.insert(record);
+        table.insertRecord(&record);
         id.insert(row[0],offset);
         username.insert(row[1],offset);
         email.insert(row[2],offset);
         password.insert(row[3],offset);
 
         offset += record.getLength();
-        getline(file, data);
 
-    }
+    }while(!file.eof());
+
     id.writeToFile("../temp/id.ndx");
     username.writeToFile("../temp/username.ndx");
     email.writeToFile("../temp/email.ndx");

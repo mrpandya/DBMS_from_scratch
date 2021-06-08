@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <fstream>
+#include <array>
 
 #include "../constants/DataTypes.cpp"
 #include "../constants/checkSemiColon.cpp"
