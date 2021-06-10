@@ -1,5 +1,6 @@
 #include "../utils/IndexList.cpp"
 #include "../constants/checkQuery.cpp"
+#include "../constants/Hash.cpp"
 #include "../constants/tokenizeQuery.cpp"
 #include "../utils/TableRecord.cpp"
 #include "../utils/TableList.cpp"
@@ -65,5 +66,9 @@ void handleImportQuery(string query){
     password.writeToFile("../temp/password.ndx");
     file.close();
 
+    id.print_sorted();
+
     cout << "Import Success !!!" << endl;
 }
+
+// TODO: make sorting for the indexlist and also convert the index list with pointers just like tablelist
