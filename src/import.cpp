@@ -1,8 +1,8 @@
-#include "../utils/IndexList.cpp"
-#include "../constants/checkQuery.cpp"
-#include "../constants/tokenizeQuery.cpp"
-#include "../utils/TableRecord.cpp"
-#include "../utils/TableList.cpp"
+// #include "../utils/IndexList.cpp"
+// #include "../constants/checkQuery.cpp"
+// #include "../constants/tokenizeQuery.cpp"
+// #include "../utils/TableRecord.cpp"
+// #include "../utils/TableList.cpp"
 
 void handleImportQuery(string query){
     vector<string> queryTokens;
@@ -49,6 +49,7 @@ void handleImportQuery(string query){
         vector<string> row = tokenizeString(data,",");
         TableRecord record = TableRecord(stoi(row[0]), row[1], row[2], row[3]);
         record.writeToFile(filename);
+        // record.testRecord();
         table.insertRecord(&record);
         id.insert(row[0],offset);
         username.insert(row[1],offset);

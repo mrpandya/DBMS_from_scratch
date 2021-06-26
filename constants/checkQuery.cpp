@@ -10,3 +10,8 @@ bool checkImportQuery(string query){
     if (regex_match(query, _importRegexString)) return true;
     return false;
 }
+
+bool checkSelectQuery(string query){
+    if(regex_match(query, _selectRegexString)) return true;
+    return false;
+}

@@ -12,22 +12,13 @@ class TableRecord{
         bool _deleted;
 
     public:
+
+        void testRecord(){
+            cout << "TR : " << _id << " " << _username << " " << _email << " " << _password << " " << endl;
+        }
+
         void printRecord(){
-            cout << _id
-                 << " "
-                 << _username 
-                 << " " 
-                 << _username_length 
-                 << " " << _password 
-                 << " " 
-                 << _password_length 
-                 << " " 
-                 << _email 
-                 << " " 
-                 << _email_length 
-                 << " " 
-                 << _deleted 
-                 << endl;
+            printf("%d\t%-20s%s\t%-30s%s\t%-20s%s",_id,&_username[0],&_email[0],&_password[0]);
         }
 
         int readInt(ifstream *file){
@@ -77,10 +68,7 @@ class TableRecord{
         }
 
         void writeString(ofstream *file, string string_value){
-            file->write(
-                &string_value[0], 
-                sizeof(string_value)
-            );
+            (*file) << string_value;
         }
 
         void writeBool(ofstream *file, bool bool_value){
@@ -118,22 +106,39 @@ class TableRecord{
                 if (!file){
                     throw "File not found. Please try again." ;
                 }
+                
                 file.seekg(offset, ios::beg);
+                if (file.eof()){
+                    throw "";
+                }
                 this->_id = readInt(&file);
                 this->_username_length = readInt(&file);
                 this->_username = readString(&file, this->_username_length);
-                this->_email_length = readInt(&file);
-                this->_email = readString(&file, this->_email_length);
                 this->_password_length = readInt(&file);
                 this->_password = readString(&file, this->_password_length);
+                this->_email_length = readInt(&file);
+                this->_email = readString(&file, this->_email_length);
+                this->_email = regex_replace(this->_email, regex("%40"), "@");
+                // -2 for 2 additional characters added %40 => @
+                this->_email_length = this->_email_length - 2;
                 this->_deleted = readBool(&file);
 
             }catch(string exception){
+                if(exception == "" ){
+                    cout << "exception occurred" << endl;
+                    throw exception;
+                }
                 cout << exception << endl;
             }
         }
 
         int getId(){ return this->_id; }
+
+        // int getUsernameLength(){ return this->_username_length; }
+
+        int getPasswordLength(){ return this->_password_length; }
+
+        // int getEmailLength(){ return this->_email_length; }
 
         string getUsername(){ return this->_username; }
 
@@ -172,24 +177,19 @@ class TableRecord{
             writeInt(&file, this->_id);
             writeInt(&file, this->_username_length);
             writeString(&file, this->_username);
-            writeInt(&file, this->_email_length);
-            writeString(&file, this->_email);
+            // +2 for 2 addtional characters @ => %40 
             writeInt(&file, this->_password_length);
             writeString(&file, this->_password);
+            writeInt(&file, this->_email_length + 2);
+            this->_email = regex_replace(this->_email, regex("@"), "%40");
+            writeString(&file, this->_email);
             writeBool(&file, this->_deleted);
             file.close();
         }
 
         int getLength(){
             return 
-                  sizeof(this->_id)
-                + sizeof(this->_username_length)
-                + sizeof(this->_username)
-                + sizeof(this->_email_length)
-                + sizeof(this->_email)
-                + sizeof(this->_password_length)
-                + sizeof(this->_password)
-                + sizeof(this->_deleted);
+                16 + this->_username_length + this->_email_length + this->_password_length + 1 + 2;
         }
 
 };

@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <fstream>
+#include <unistd.h>
 #include <array>
 
 #include "../constants/DataTypes.cpp"
