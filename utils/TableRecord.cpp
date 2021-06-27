@@ -13,13 +13,24 @@ class TableRecord{
 
     public:
 
-        void testRecord(){
-            cout << "TR : " << _id << " " << _username << " " << _email << " " << _password << " " << endl;
+        template<typename T> void printElement(T t, const int& width){
+            cout << setw(width/2) << setfill(' ') << (t) << setw(width/3) << "|";
         }
 
-        void printRecord(){
-            printf("%d\t%-20s%s\t%-30s%s\t%-20s%s",_id,&_username[0],&_email[0],&_password[0]);
+        void testRecord(){
+            const int nameWidth = 20;
+            const int numWidth = 6;
+            cout << '|';
+            printElement(_id, numWidth);
+            printElement(_username, nameWidth);
+            printElement(_email, 40);
+            printElement(_password, nameWidth);
+            cout << endl;
         }
+
+        // void printRecord(){
+        //     printf("%d\t%-20s%s\t%-30s%s\t%-20s%s",_id,&_username[0],&_email[0],&_password[0]);
+        // }
 
         int readInt(ifstream *file){
             char temp_int[sizeof(int)];

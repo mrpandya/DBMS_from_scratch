@@ -26,11 +26,45 @@ void handleSelectQuery(string query){
         // printing all the records
         if (queryTokens[1] == "*"){
             int offset = 0;
-            int i = 0;
-            while(i++<20){
+            cout << "+----+---------------+-------------------------------+---------------+";
+            cout << endl; 
+            cout << "|";
+            cout << setw(6/2) << setfill(' ') << "id" << setw(6/3) << "|";
+            cout << setw(20/2) << setfill(' ') << "username" << setw(20/3) << "|";
+            cout << setw((40/2)-1) << setfill(' ') << "email" << setw((40/3)) << "|";
+            cout << setw(20/2) << setfill(' ') << "password" << setw(20/3) << "|";
+            cout << endl;
+            cout << "+----+---------------+-------------------------------+---------------+";
+            cout << endl; 
+            while(true){
                 try{
-                    // cout << "hello " << endl;
-                    // TODO : seg fault debug the code to find the breaking point.
+                    TableRecord record = TableRecord(filename,offset);
+                    if (record.getPasswordLength() >= 15 ){
+                        break;
+                    }
+                    if(!record.isDeleted()){
+                        record.testRecord();
+                    }
+                    offset += record.getLength();
+                }catch(string err){
+                    break;
+                }
+            }
+            cout << "+----+---------------+-------------------------------+---------------+";
+            cout << endl; 
+            
+        }
+    }
+    // WHERE keyword is present
+    else{
+        if (queryTokens[1] == "*"){
+            // WHERE clause used on only one column
+            if(queryTokens.size() < 9){
+                // if ()
+            }
+            int offset = 0;
+            while(true){
+                try{
                     TableRecord record = TableRecord(filename,offset);
                     if (record.getPasswordLength() >= 15 ){
                         break;
