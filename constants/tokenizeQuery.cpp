@@ -13,3 +13,7 @@ vector<string> tokenizeString(string query, string del = " ")
     tokens.push_back(query.substr(start, end - start));
     return tokens;
 }
+
+string stripParanthesis(string query){
+    return query.substr(1,query.length()-2);
+}

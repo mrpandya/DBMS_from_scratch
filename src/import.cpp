@@ -4,7 +4,7 @@
 // #include "../utils/TableRecord.cpp"
 // #include "../utils/TableList.cpp"
 
-void handleImportQuery(string query){
+void handleImportQuery(string query, TableList *table){
     vector<string> queryTokens;
     string data;
     fstream file;
@@ -34,7 +34,6 @@ void handleImportQuery(string query){
     string filename = (queryTokens[1].substr(0, queryTokens[1].length() - 3)).append("db");
     int offset = 0;
 
-    TableList table = TableList();
     IndexList id = IndexList(INT);
     IndexList username = IndexList(STRING);
     IndexList email = IndexList(STRING);
@@ -50,7 +49,7 @@ void handleImportQuery(string query){
         TableRecord record = TableRecord(stoi(row[0]), row[1], row[2], row[3]);
         record.writeToFile(filename);
         // record.testRecord();
-        table.insertRecord(&record);
+        (*table).insertRecord(&record);
         id.insert(row[0],offset);
         username.insert(row[1],offset);
         email.insert(row[2],offset);
