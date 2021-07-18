@@ -9,6 +9,31 @@
 #include "./src/insert.cpp"
 #include "./src/delete.cpp"
 
+void syntaxHelpMenu(){
+    cout << "Syntax Help" << endl;
+    cout << endl;
+    cout << "IMPORT Query" << endl;
+    cout << "\t Import <file_name>.csv;" << endl;
+    cout << endl;
+    cout << "SELECT Query" << endl;
+    cout << "\t Select * from <table_name> [Where] [column_name] [operation] [value];" << endl;
+    cout << "\t OPTION" << endl;
+    cout << "\t\t WHERE => It can be used only on any one column." << endl;
+    cout << "\t\t OPERATION => Valid operations are {=, !=, >, <, <=, >=}" << endl;
+    cout << endl;
+    cout << "INSERT Query" << endl;
+    cout << "\t Insert into <table_name> values (data...);" << endl;
+    cout << "\t DESCRIPTION" << endl;
+    cout << "\t\t DATA => It is comma separated string of the data to be inserted. DO NOT leave a space in the paranthesis." << endl;
+    cout << endl;
+    cout << "DELETE Query" << endl;
+    cout << "\t Delete from <table_name> [Where] [column_name] [operation] [value];" << endl;
+    cout << "\t OPTION" << endl;
+    cout << "\t\t WHERE => It can be used only on any one column." << endl;
+    cout << "\t\t OPERATION => Valid operations are {=, !=, >, <, <=, >=}" << endl;
+    cout << endl;
+}
+
 int main(){
     cout << "Welcome to ____db" << endl;
     cout << "_____db v1.0.0" << endl;
@@ -23,7 +48,7 @@ int main(){
             break;
         }
         else if(str_query == "\\h"){
-            // TODO: add a menu for syntax
+            syntaxHelpMenu();
         }
         else if(checkImportQuery(str_query)){
             handleImportQuery(str_query,&table);

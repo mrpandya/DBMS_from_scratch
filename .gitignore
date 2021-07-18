@@ -1,0 +1,12 @@
+utils/t
+utils/importq
+utils/debug
+utils/*.ndx
+utils/test1.cpp
+utils/test.cpp
+utils/debug.cpp
+in.csv
+manan.csv
+*.ndx
+*.db
+*.txt
