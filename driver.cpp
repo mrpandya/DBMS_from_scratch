@@ -14,16 +14,35 @@ int main(){
     cout << "_____db v1.0.0" << endl;
     cout << "Enter \\h for help and \\q to quit." << endl;
     TableList table = TableList();
-    handleImportQuery("Import manan.csv;",&table);
-    handleInsertQuery("Insert into manan values (11,_manan,mrpan2017@gmail.com,pa);", &table);
-    // handleDeleteQuery("Delete from manan where id > 5;");
-    handleSelectQuery("Select * from manan where username = Test#2;");
-    // handleDeleteQuery("Delete from manan where username = Test%4;");
-    // handleSelectQuery("Select * from manan;");
-    handleInsertQuery("Insert into manan values (12,test,test2021@gmail.com,lmao);", &table);
-    // handleDeleteQuery("Delete from manan where email = haha420@gmail.com;");
-    // handleSelectQuery("Select * from manan;");
-    handleDeleteQuery("Delete from manan;");
-    handleSelectQuery("Select * from manan;");
+    char query[500];
+    while(true){
+        cout << "___.db> ";
+        cin.getline(query, 500);
+        string str_query = (string)query;
+        if(str_query == "\\q"){
+            break;
+        }
+        else if(str_query == "\\h"){
+            // TODO: add a menu for syntax
+        }
+        else if(checkImportQuery(str_query)){
+            handleImportQuery(str_query,&table);
+        }
+        else if(checkSelectQuery(str_query)){
+            handleSelectQuery(str_query);
+        }
+        else if(checkInsertQuery(str_query)){
+            handleInsertQuery(str_query,&table);
+        }
+        else if(checkDeleteQuery(str_query)){
+            handleDeleteQuery(str_query);
+        }
+        else{
+            cout << "Error: Something wrong with your query. Please check the syntax." << endl;
+        }
+    }
+    cout << "********************************" <<endl;
+    cout << "*          THANK YOU :)        *" << endl;
+    cout << "********************************" <<endl;
     return 0;
 }
