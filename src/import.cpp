@@ -1,9 +1,3 @@
-// #include "../utils/IndexList.cpp"
-// #include "../constants/checkQuery.cpp"
-// #include "../constants/tokenizeQuery.cpp"
-// #include "../utils/TableRecord.cpp"
-// #include "../utils/TableList.cpp"
-
 void handleImportQuery(string query, TableList *table){
     vector<string> queryTokens;
     string data;

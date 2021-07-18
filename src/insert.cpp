@@ -2,6 +2,10 @@ void handleInsertQuery(string query, TableList *table){
     vector<string> queryTokens, row;
     fstream file;
     query = checkSemiColon(query);
+    if(!checkInsertQuery(query)){
+        cout << "Something wrong with your query. Please check the syntax and try again." << endl;
+        return;
+    }
     queryTokens = tokenizeString(query);
     if(queryTokens.size() < 5){
         cout << "Incomplete command. Try again." << endl;

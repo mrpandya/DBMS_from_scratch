@@ -250,7 +250,6 @@ void printAllColumnsHeader(){
 
 void handleSelectQuery(string query){
     vector<string> queryTokens;
-    string data;
     fstream file;
     query = checkSemiColon(query);
     if (!checkSelectQuery(query)){

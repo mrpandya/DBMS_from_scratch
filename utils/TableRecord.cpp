@@ -23,7 +23,7 @@ class TableRecord{
             cout << '|';
             printElement(_id, numWidth);
             printElement(_username, nameWidth);
-            printElement(_email, 40);
+            printElement(_email, 39);
             printElement(_password, nameWidth);
             cout << endl;
         }
@@ -180,11 +180,29 @@ class TableRecord{
             this->_deleted = isDeleted;
         }
 
-        void writeToFile(string filename, int offset = -1){
-            ofstream file(filename, ios::binary | ios::app);
-            if(offset != -1){
-                file.seekp(offset, ios::beg);
+        void updateToFile(string filename, int offset){
+            ofstream file(filename, ios::binary | ios::in);
+            file.seekp(offset, ios::beg);
+            int temp = file.tellp();
+            writeInt(&file, this->_id);
+            writeInt(&file, this->_username_length);
+            writeString(&file, this->_username);
+            // +2 for 2 addtional characters @ => %40 
+            writeInt(&file, this->_password_length);
+            writeString(&file, this->_password);
+            writeInt(&file, this->_email_length + 2);
+            this->_email = regex_replace(this->_email, regex("@"), "%40");
+            writeString(&file, this->_email);
+            temp += getLength();
+            if (temp == file.tellp()){  // jugad
+                file.seekp(-1, ios::cur);
             }
+            writeBool(&file, this->_deleted);
+            file.close();
+        }
+
+        void writeToFile(string filename){
+            ofstream file(filename, ios::binary | ios::app);
             writeInt(&file, this->_id);
             writeInt(&file, this->_username_length);
             writeString(&file, this->_username);
