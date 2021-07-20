@@ -35,13 +35,13 @@ void syntaxHelpMenu(){
 }
 
 int main(){
-    cout << "Welcome to ____db" << endl;
-    cout << "_____db v1.0.0" << endl;
+    cout << "Welcome to EL.db" << endl;
+    cout << "EL.db v1.0.0" << endl;
     cout << "Enter \\h for help and \\q to quit." << endl;
     TableList table = TableList();
     char query[500];
     while(true){
-        cout << "___.db> ";
+        cout << "EL.db> ";
         cin.getline(query, 500);
         string str_query = (string)query;
         if(str_query == "\\q"){
